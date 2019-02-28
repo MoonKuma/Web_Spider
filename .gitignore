@@ -2,3 +2,5 @@
 *.gz
 *.txt
 /.idea/
+*.zip
+*.gz
