@@ -10,7 +10,8 @@ import os
 import copy
 from urllib import parse
 from utils.md5_transfer import md5_transfer
-
+from urllib.parse import quote
+import string
 
 def get_url_root(url):
     """
@@ -23,7 +24,7 @@ def get_url_root(url):
     return url_root
 
 
-def get_links_inside(bs_obj, url, type_of_link='internal'):
+def get_links_inside(bs_obj, url, type_of_link='internal', path_only=True):
     """
     Usd for getting all internal/external/both links inside certain bs object
     Internal links
@@ -34,6 +35,7 @@ def get_links_inside(bs_obj, url, type_of_link='internal'):
     :param bs_obj: a beautiful soup object for compute
     :param url: the url to compute
     :param type_of_link: default is internal for internal links. other acceptable input include ['']
+    :param path_only: if True, only save the path (no query or parameters) of those links inside
     :return: a list including all requested links inside the all_links object (this may be empty)
     """
     root_url = get_url_root(url)
@@ -46,9 +48,15 @@ def get_links_inside(bs_obj, url, type_of_link='internal'):
     for link in links:
         if link.attrs['href'] is not None and link.attrs['href'] :
             if link.attrs['href'].startswith("/"):
-                result_links.add(root_url + link.attrs['href'])
+                link_add = root_url + link.attrs['href']
             else:
-                result_links.add(link.attrs['href'])
+                link_add = link.attrs['href']
+            link_add = quote(link_add, safe=string.printable)
+            if path_only:
+                parsed = parse.urlparse(link_add)
+                link_add = parsed.scheme + '://' + parsed.netloc + parsed.path
+            if link_add != "":
+                result_links.add(link_add)
     return list(result_links)
 
 

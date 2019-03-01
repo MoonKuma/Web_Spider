@@ -27,7 +27,7 @@ bsObj = BeautifulSoup(response.data, "html.parser")
 d = bsObj.__copy__()
 parseURL = parse.urlparse(url)
 # get internal links (starts with / or contains the same net location)
-currentURL = parseURL.scheme + '://' + parseURL.netloc
+currentURL = parseURL.scheme + '://' + parseURL.netloc + parseURL.path
 links = bsObj.findAll("a", href=re.compile("^(/|.*"+currentURL+")"))
 # write them
 internalLinks = []
