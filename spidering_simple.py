@@ -6,7 +6,7 @@
 # @Desc  : a simple version for crawling across website through a recursion
 # This is suitable for simple cases. If the recursion caused a stack overflow when the website itself is too deep, or
 # the procedure cost too much time, you may need a developed (sophisticate) way of doing this.
-# See the list + threading method :
+# See the list + threading method : spidering_with_thread.py
 
 from search_across_website.web_crawler_methods import *
 import urllib3
