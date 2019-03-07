@@ -44,7 +44,7 @@
 
 - This is my result on requiring 100000 pages from one single root.
 
-  ![image](E:\PythonProject\Web_Spider\refer\result_of_100000.png)
+  ![image](https://github.com/MoonKuma/Web_Spider/blob/master/refer/result_of_100000.png)
 
   Well, 90% comes back and this only takes around 4 hours.
 
