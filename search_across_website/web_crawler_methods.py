@@ -127,3 +127,25 @@ def save_content(file_path, url, content, over_write=True, report_progress=False
         if report_progress:
             print(msg)
 
+
+def get_next(start, step=1, max=None):
+    """
+    Using 'yield' to make a simple iterator
+    for py3, using:
+        obj = get_next()
+        obj.__next__()
+        # or
+        for i in obj:
+            ...
+    :param start: start number
+    :param step: step length
+    :param max: max num if exist
+    :return: return current step number
+    """
+    current = start
+    while True:
+        yield current
+        current += step
+        if max:
+            if current > max:
+                break
