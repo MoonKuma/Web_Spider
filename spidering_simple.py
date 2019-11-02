@@ -3,10 +3,13 @@
 # @File  : spidering_simple.py
 # @Author: MoonKuma
 # @Date  : 2019/2/25
-# @Desc  : a simple version for crawling across website through a recursion
-# This is suitable for simple cases. If the recursion caused a stack overflow when the website itself is too deep, or
-# the procedure cost too much time, you may need a developed (sophisticate) way of doing this.
-# See the list + threading method : spidering_with_thread.py
+# @Desc  :
+
+"""
+a simple version for crawling across website through a recursion
+this won't work well when task become large, since the recursion stack has limited depth
+"""
+
 
 from search_across_website.web_crawler_methods import *
 import urllib3
@@ -25,7 +28,8 @@ MAX_DEPTH = 2  # max depth, setting max depth= 10 will cost more than 1 hour of 
 internal_links_result = []  # for those have been computed
 untouched_links = []
 
-root_website = 'https://zh.moegirl.org/%E7%99%BD%E5%AD%A6'
+# root_website = 'https://zh.moegirl.org/%E7%99%BD%E5%AD%A6'
+root_website = 'https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=20&page_start=20'
 http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
 save_path = 'file_saved/zh.moegirl'
 

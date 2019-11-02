@@ -3,7 +3,13 @@
 # @File  : spidering_with_thread.py
 # @Author: MoonKuma
 # @Date  : 2019/2/28
-# @Desc  : here we design another spidering structure
+# @Desc  :
+
+"""
+Used for downloading wikipedia like websites;
+This script will start with one root, download its html content, and then adding it's internal links into searching list
+We also use a multi-thread techniques to speed-up
+"""
 
 
 from search_across_website.web_crawler_methods import *
@@ -23,16 +29,20 @@ from utils.clean_path import clean_target_path
 
 
 save_path = 'file_saved/zh.moegirl'
+
 clean_target_path(file_path=save_path, report=False)  # delete old results
 
 root = 'https://zh.moegirl.org/%E7%99%BD%E5%AD%A6'
 # root = 'http://www.google.com'  # use google to test time out. Guess why? XD
 
+test_num = 200000
+
 SLEEP_TIME = 0.5  # sleep if no job available
-MAX_WORKER = 10  # worker in threadpool executor
+MAX_WORKER = 50  # worker in threadpool executor
 TIME_OUT_ACQUIRING = 5  # acquiring key time out
 TIME_OUT_HTTP = (2.0, 10.0)  # http connect/read time out
 PAGES_NUM = 10  # default pages num
+
 
 internal_links_result = list()  # links that have been computed
 waiting_list = WaitingList(root=root, timeout=TIME_OUT_ACQUIRING)  # links in waiting
@@ -165,5 +175,5 @@ def save_info(report=True):
         file_w.write(str(info_dict))
 
 # test()
-test_threadpool(100000)
+test_threadpool(test_num)
 
