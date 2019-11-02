@@ -89,6 +89,7 @@ def read_content(data):
 # STEP4 对目标列表进行抓取
 def get_target_list(url_list):
     for url in url_list:
+        print('Now requesting:' + url )
         data = request_link(url)
         if data!=None:
             read_content(data)
