@@ -3,5 +3,6 @@
 *.txt
 /.idea/
 *.zip
+*.jpg
 *.gz
 /file_saved

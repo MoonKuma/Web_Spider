@@ -8,7 +8,7 @@
 from bs4 import BeautifulSoup
 import urllib3
 import certifi
-
+import re
 # STEP1 找到抓取的位置
 """
 碧蓝航线舰娘图鉴
@@ -54,6 +54,10 @@ def request_link(link_path):
 保存两份文件，一份文档里面记录了画师的微博等信息，另一份记录保存图片和画师名字
 """
 def read_content(data):
+    def validateTitle(title): # 这个小方法用来避免出现文件名中的非法字符
+        rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
+        new_title = re.sub(rstr, "_", title)  # 如果有命名非法字符就替换为_
+        return new_title
     bs_obj = BeautifulSoup(data, "html.parser")
     # 先找到画师吧
     illustrator = ''
@@ -79,9 +83,9 @@ def read_content(data):
     for img in all_img:
         name = img.get_attribute_list('alt')[0]
         pic = img.get_attribute_list('src')[0]
-        if name!=None and pic!=None:
+        if name!=None and pic!=None and name.endswith('.jpg'):
             picture = http.request('GET', pic)
-            save_path = SAVE_PATH + illustrator + '_' + PIC_TITLE + '_' + name
+            save_path = SAVE_PATH + validateTitle( illustrator + '_' + PIC_TITLE + '_' + name)
             with open(save_path, 'wb') as f:
                 f.write(picture.data)
                 f.close()
@@ -92,7 +96,10 @@ def get_target_list(url_list):
         print('Now requesting:' + url )
         data = request_link(url)
         if data!=None:
-            read_content(data)
+            try:
+                read_content(data)
+            except:
+                print('[ERROR] 好像哪里错了,但是没关系 '+ url)
     save_path = SAVE_PATH + SAVE_NAME
     with open(save_path, 'w') as f:
         for key in result.keys():
